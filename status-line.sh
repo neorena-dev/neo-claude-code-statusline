@@ -20,4 +20,6 @@ cost=$(~/.claude/get-cost.sh)
 
 # Format and output the status line with proper colors and formatting
 # New format: <model> xx% left 78/908
-printf "\033[0;38;2;91;155;214m%s\033[0m  \033[38;5;248m%s\033[0m  \033[38;5;178m%s\033[0m\n" "$model" "$tokens" "$cost"
+printf "\033[0;38;2;91;155;214m%s\033[0m " "$model"
+printf "\033[0;38;5;248m%s\033[0m " "$tokens"
+printf "\033[0;38;5;178m%s\033[0m\n" "$cost"

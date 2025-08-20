@@ -12,7 +12,7 @@ debug_log() {
 # 生成进度条的函数
 generate_progress_bar() {
     local used_percentage=$1
-    local filled_boxes=$(echo "$used_percentage / 10" | bc)
+    local filled_boxes=$(echo "($used_percentage + 9) / 10" | bc)
     local empty_boxes=$(echo "10 - $filled_boxes" | bc)
     
     # 确保范围正确
@@ -27,10 +27,10 @@ generate_progress_bar() {
     # 生成进度条
     local bar=""
     for ((i=0; i<filled_boxes; i++)); do
-        bar+="■"
+        bar+="█"
     done
     for ((i=0; i<empty_boxes; i++)); do
-        bar+="□"
+        bar+="▒"
     done
     
     echo "$bar"
@@ -60,7 +60,7 @@ debug_log "收到输入数据长度: ${#input} 字符"
 # 检查输入是否为空
 if [[ -z "$input" ]]; then
     debug_log "错误: 输入为空"
-    echo "N/A"
+    echo "▒▒▒▒▒▒▒▒▒▒ 0%"
     exit 0
 fi
 
@@ -71,13 +71,13 @@ debug_log "提取的 transcript_path: $transcript_path"
 # 检查transcript文件是否存在
 if [[ -z "$transcript_path" ]]; then
     debug_log "错误: transcript_path 为空"
-    echo "N/A"
+    echo "▒▒▒▒▒▒▒▒▒▒ 0%"
     exit 0
 fi
 
 if [[ ! -f "$transcript_path" ]]; then
     debug_log "错误: transcript 文件不存在: $transcript_path"
-    echo "N/A"
+    echo "▒▒▒▒▒▒▒▒▒▒ 0%"
     exit 0
 fi
 
@@ -111,6 +111,6 @@ if [[ "$result" != "null" && "$result" =~ ^[0-9]+$ && "$result" -gt 0 ]]; then
     debug_log "最终输出: $formatted_tokens"
     echo "$formatted_tokens"
 else
-    debug_log "最终输出: N/A (未找到有效 token 数据)"
-    echo "N/A"
+    debug_log "最终输出: □□□□□□□□□□ 0% (未找到有效 token 数据)"
+    echo "▒▒▒▒▒▒▒▒▒▒ 0%"
 fi
